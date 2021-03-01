@@ -2,18 +2,24 @@
   "name": "react-perceptual-picker",
   "version": "0.1.0",
   "description": "Use perceptually uniform color spaces and differences to pick colors",
-  "main": "./build/index.js",
-  "module": "./build/index.es.js",
-  "peerDependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
-  },
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "esmodule": "dist/index.esmodule.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "exports": "./dist/index.modern.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "rollup -c",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
+    "build???": "microbundle --jsx React.createElent, --name react-perceptual-picker --css inline --tsconfig tsconfig.build.json",
+    "build": "microbundle --jsx React.createElement",
+    "dev???": "microbundle watch",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "start-demo": "parcel demo/src/index.html --out-dir demo/dist --open",
+    "build-demo": "parcel build demo/src/index.html --out-dir demo/dist --public-url /react-perceptual-picker/",
+    "deploy-demo": "yarn run build-demo && gh-pages -d demo/dist"
   },
   "keywords": [
     "color",
@@ -22,6 +28,14 @@
   ],
   "author": "Christopher Michael Buck",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/butterwell/react-perceptual-picker/issues"
+  },
+  "homepage": "https://butterwell.github.io/react-perceptual-picker",
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.13.1",
     "@rollup/plugin-commonjs": "^17.1.0",
@@ -41,17 +55,19 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "gh-pages": "^3.1.0",
     "jest": "^26.6.3",
+    "microbundle": "^0.13.0",
+    "parcel-bundler": "^1.12.4",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.5.2",
     "typescript": "^4.2.2"
   },
   "dependencies": {
     "@types/d3": "^6.3.0",
-    "d3-color": "^2.0.0"
+    "d3-color": "^2.0.0",
+    "react-media-hook": "^0.4.9"
   }
 }

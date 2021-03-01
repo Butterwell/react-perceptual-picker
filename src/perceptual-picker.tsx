@@ -30,14 +30,13 @@ const PerceptualPicker = (props) => {
   };
 
   const gridStyle = {
-    display: "inline-block",
     marginRight: "1px",
     marginLeft: "1px",
   };
 
   function renderGrid(grid, key) {
     return (
-      <div key={key} style={gridStyle}>
+      <div key={key} style={{...gridStyle, display: props.row ? 'inline-block' : 'block'}}>
         {grid.map((r, i) => (
           <div key={(i * 1000).toString() + key} style={rowStyle}>
             {r.map((c, j) => (
@@ -65,12 +64,14 @@ PerceptualPicker.propTypes = {
   centerColor: PropTypes.string,
   onChange: PropTypes.func,
   spread: PropTypes.number,
+  row: PropTypes.bool
 };
 
 PerceptualPicker.defaultProps = {
   centerColor: "rgb(127,127,127)",
-  onChange: undefined,
+  onChange: ()=>{},
   spread: 4,
+  row: true
 };
 
 export default PerceptualPicker;
