@@ -31847,7 +31847,7 @@ var Demo = function Demo() {
     style: {
       textAlign: 'center'
     }
-  }, "The center square in each grid is the same, picked, color"), _react.default.createElement("div", {
+  }, "Tap on any square to center that color"), _react.default.createElement("div", {
     style: {
       textAlign: 'center'
     }
