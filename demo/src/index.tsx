@@ -13,7 +13,7 @@ const Demo = () => {
 
   const bigEnough = useMediaPredicate("(min-width: 1000px)");
     
-  const [color, setColor] = useState("rgb(255,66,66)");
+  const [color, setColor] = useState("rgb(127,127,127)");
 
   const getTextColor = (c) => getBrightness(c) > 128 ? "black" : "white"
 
@@ -37,11 +37,11 @@ const Demo = () => {
             A color picker component using Oklab for React and Preact apps
         </h2>
         <h3 style={{textAlign: 'center'}}>
-            The center square in each grid is the same, picked, color
+            Tap on any square to select that color
         </h3>
         
         <div style={{textAlign: 'center'}}>
-            <PerceptualPicker onChange={handleChange} row={bigEnough}/>
+            <PerceptualPicker onChange={handleChange} centerColor={color} row={bigEnough}/>
         </div>
     </div>
   );
