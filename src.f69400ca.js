@@ -31847,7 +31847,7 @@ var Demo = function Demo() {
     style: {
       textAlign: 'center'
     }
-  }, "Tap on any square to center that color"), _react.default.createElement("div", {
+  }, "Tap on any square to select that color"), _react.default.createElement("div", {
     style: {
       textAlign: 'center'
     }
