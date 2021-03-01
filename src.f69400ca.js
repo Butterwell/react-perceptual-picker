@@ -31813,7 +31813,7 @@ function getBrightness(color) {
 var Demo = function Demo() {
   var bigEnough = (0, _reactMediaHook.useMediaPredicate)("(min-width: 1000px)");
 
-  var _a = (0, _react.useState)("rgb(127,66,66)"),
+  var _a = (0, _react.useState)("rgb(127,127,127)"),
       color = _a[0],
       setColor = _a[1];
 
