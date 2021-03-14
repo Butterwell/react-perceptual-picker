@@ -1,1 +1,1 @@
-export { default as PerceptualPicker } from "./perceptual-picker";
+export { default as ThreeWindowPicker } from "./three-window-picker";

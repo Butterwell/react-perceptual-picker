@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useMediaPredicate } from "react-media-hook";
-import { PerceptualPicker } from "../../src";
+import { ThreeWindowPicker } from "../../src";
 
 function getBrightness(color) {
     const strings = color.match(/\d+/g);
@@ -41,7 +41,7 @@ const Demo = () => {
         </h3>
         
         <div style={{textAlign: 'center'}}>
-            <PerceptualPicker onChange={handleChange} centerColor={color} row={bigEnough}/>
+            <ThreeWindowPicker onChange={handleChange} centerColor={color} row={bigEnough}/>
         </div>
     </div>
   );

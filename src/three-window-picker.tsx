@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { grid } from "./grid";
 
-const PerceptualPicker = (props) => {
+const ThreeWindowPicker = (props) => {
   // The entire display is oriented on perceptiable distance from
   // the color in the center.
   const [centerColor, setCenterColor] = useState(props.centerColor);
@@ -60,18 +60,18 @@ const PerceptualPicker = (props) => {
   );
 };
 
-PerceptualPicker.propTypes = {
+ThreeWindowPicker.propTypes = {
   centerColor: PropTypes.string,
   onChange: PropTypes.func,
   spread: PropTypes.number,
   row: PropTypes.bool
 };
 
-PerceptualPicker.defaultProps = {
+ThreeWindowPicker.defaultProps = {
   centerColor: "rgb(127,127,127)",
   onChange: ()=>{},
   spread: 4,
   row: true
 };
 
-export default PerceptualPicker;
+export default ThreeWindowPicker;
