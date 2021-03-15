@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { InferProps } from "prop-types";
 import { grid } from "./grid";
 
-const ThreeWindowPicker = (props) => {
-  // The entire display is oriented on perceptiable distance from
+const ThreeWindowPicker: React.FC = (
+  props: InferProps<typeof ThreeWindowPicker.propTypes>,
+) => {
+  // The entire display is oriented on perceptible distance from
   // the color in the center.
   const [centerColor, setCenterColor] = useState(props.centerColor);
 
@@ -36,7 +38,10 @@ const ThreeWindowPicker = (props) => {
 
   function renderGrid(grid, key) {
     return (
-      <div key={key} style={{...gridStyle, display: props.row ? 'inline-block' : 'block'}}>
+      <div
+        key={key}
+        style={{ ...gridStyle, display: props.row ? "inline-block" : "block" }}
+      >
         {grid.map((r, i) => (
           <div key={(i * 1000).toString() + key} style={rowStyle}>
             {r.map((c, j) => (
@@ -64,14 +69,14 @@ ThreeWindowPicker.propTypes = {
   centerColor: PropTypes.string,
   onChange: PropTypes.func,
   spread: PropTypes.number,
-  row: PropTypes.bool
+  row: PropTypes.bool,
 };
 
 ThreeWindowPicker.defaultProps = {
   centerColor: "rgb(127,127,127)",
-  onChange: ()=>{},
+  onChange: () => {},
   spread: 4,
-  row: true
+  row: true,
 };
 
 export default ThreeWindowPicker;
