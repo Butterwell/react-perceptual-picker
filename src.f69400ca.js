@@ -31476,13 +31476,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-},{"./color.js":"../../node_modules/d3-color/src/color.js","./lab.js":"../../node_modules/d3-color/src/lab.js","./cubehelix.js":"../../node_modules/d3-color/src/cubehelix.js"}],"../../src/oklab.tsx":[function(require,module,exports) {
+},{"./color.js":"../../node_modules/d3-color/src/color.js","./lab.js":"../../node_modules/d3-color/src/lab.js","./cubehelix.js":"../../node_modules/d3-color/src/cubehelix.js"}],"../../node_modules/@butterwell/oklab/build/module/lib/oklab.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fromOklab = exports.toOklab = void 0;
+exports.rgbString = exports.toD3Color = exports.toOklab = void 0;
 
 var d3 = _interopRequireWildcard(require("d3-color"));
 
@@ -31491,10 +31491,9 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // For color conversion
-//See https://bottosson.github.io/posts/oklab/
-//and https://observablehq.com/@fil/oklab-color-space
 var toOklab = function toOklab(color) {
-  var c = d3.rgb(color);
+  var c = d3.rgb(color); // Handle nearly any type of color string
+
   var r = gamma_inv(c.r / 255);
   var g = gamma_inv(c.g / 255);
   var b = gamma_inv(c.b / 255);
@@ -31510,19 +31509,25 @@ var toOklab = function toOklab(color) {
 
 exports.toOklab = toOklab;
 
-var fromOklab = function fromOklab(_a) {
-  var L = _a.L,
-      a = _a.a,
-      b = _a.b;
+var toD3Color = function toD3Color(_ref) {
+  var L = _ref.L,
+      a = _ref.a,
+      b = _ref.b;
   var l = Math.pow(L + 0.3963377774 * a + 0.2158037573 * b, 3);
   var m = Math.pow(L - 0.1055613458 * a - 0.0638541728 * b, 3);
   var s = Math.pow(L - 0.0894841775 * a - 1.291485548 * b, 3);
   return d3.rgb(255 * gamma(+4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s), 255 * gamma(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s), 255 * gamma(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s));
+};
+
+exports.toD3Color = toD3Color;
+
+var rgbString = function rgbString(ok) {
+  return toD3Color(ok).toString();
 }; // gamma and gamma_inv from https://observablehq.com/@fil/oklab-color-space
 // See: https://imagej.nih.gov/ij/developer/source/ij/process/ColorSpaceConverter.java.html
 
 
-exports.fromOklab = fromOklab;
+exports.rgbString = rgbString;
 
 var gamma = function gamma(x) {
   return x >= 0.0031308 ? 1.055 * Math.pow(x, 1 / 2.4) - 0.055 : 12.92 * x;
@@ -31531,7 +31536,26 @@ var gamma = function gamma(x) {
 var gamma_inv = function gamma_inv(x) {
   return x >= 0.04045 ? Math.pow((x + 0.055) / (1 + 0.055), 2.4) : x / 12.92;
 };
-},{"d3-color":"../../node_modules/d3-color/src/index.js"}],"../../src/grid.tsx":[function(require,module,exports) {
+},{"d3-color":"../../node_modules/d3-color/src/index.js"}],"../../node_modules/@butterwell/oklab/build/module/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _oklab = require("./lib/oklab");
+
+Object.keys(_oklab).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _oklab[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _oklab[key];
+    }
+  });
+});
+},{"./lib/oklab":"../../node_modules/@butterwell/oklab/build/module/lib/oklab.js"}],"../../src/grid.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31539,7 +31563,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.grid = exports.vec = exports.chunks = exports.bRange = exports.aRange = exports.lRange = exports.extremes = void 0;
 
-var _oklab = require("./oklab");
+var _oklab = require("@butterwell/oklab");
 
 var __spreadArray = void 0 && (void 0).__spreadArray || function (to, from) {
   for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
@@ -31624,31 +31648,31 @@ var grid = function grid(centerColor, spread) {
 
   var LaResult = __spreadArray([], ls.map(function (l) {
     return as.map(function (a) {
-      return (0, _oklab.fromOklab)({
+      return (0, _oklab.rgbString)({
         L: l,
         a: a,
         b: lab.b
-      }).toString();
+      });
     });
   }));
 
   var LbResult = __spreadArray([], ls.map(function (l) {
     return bs.map(function (b) {
-      return (0, _oklab.fromOklab)({
+      return (0, _oklab.rgbString)({
         L: l,
         a: lab.a,
         b: b
-      }).toString();
+      });
     });
   }));
 
   var abResult = __spreadArray([], as.map(function (a) {
     return bs.map(function (b) {
-      return (0, _oklab.fromOklab)({
+      return (0, _oklab.rgbString)({
         L: lab.L,
         a: a,
         b: b
-      }).toString();
+      });
     });
   }));
 
@@ -31660,7 +31684,7 @@ var grid = function grid(centerColor, spread) {
 };
 
 exports.grid = grid;
-},{"./oklab":"../../src/oklab.tsx"}],"../../src/perceptual-picker.tsx":[function(require,module,exports) {
+},{"@butterwell/oklab":"../../node_modules/@butterwell/oklab/build/module/index.js"}],"../../src/three-window-picker.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31696,8 +31720,8 @@ var __assign = void 0 && (void 0).__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-var PerceptualPicker = function PerceptualPicker(props) {
-  // The entire display is oriented on perceptiable distance from
+var ThreeWindowPicker = function ThreeWindowPicker(props) {
+  // The entire display is oriented on perceptible distance from
   // the color in the center.
   var _a = (0, _react.useState)(props.centerColor),
       centerColor = _a[0],
@@ -31732,7 +31756,7 @@ var PerceptualPicker = function PerceptualPicker(props) {
     return _react.default.createElement("div", {
       key: key,
       style: __assign(__assign({}, gridStyle), {
-        display: props.row ? 'inline-block' : 'block'
+        display: props.row ? "inline-block" : "block"
       })
     }, grid.map(function (r, i) {
       return _react.default.createElement("div", {
@@ -31755,19 +31779,19 @@ var PerceptualPicker = function PerceptualPicker(props) {
   return _react.default.createElement("div", null, renderGrid(grids.La, "La"), renderGrid(grids.ab, "ab"), renderGrid(grids.Lb, "Lb"));
 };
 
-PerceptualPicker.propTypes = {
+ThreeWindowPicker.propTypes = {
   centerColor: _propTypes.default.string,
   onChange: _propTypes.default.func,
   spread: _propTypes.default.number,
   row: _propTypes.default.bool
 };
-PerceptualPicker.defaultProps = {
+ThreeWindowPicker.defaultProps = {
   centerColor: "rgb(127,127,127)",
   onChange: function onChange() {},
   spread: 4,
   row: true
 };
-var _default = PerceptualPicker;
+var _default = ThreeWindowPicker;
 exports.default = _default;
 },{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","./grid":"../../src/grid.tsx"}],"../../src/index.ts":[function(require,module,exports) {
 "use strict";
@@ -31775,17 +31799,17 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "PerceptualPicker", {
+Object.defineProperty(exports, "ThreeWindowPicker", {
   enumerable: true,
   get: function () {
-    return _perceptualPicker.default;
+    return _threeWindowPicker.default;
   }
 });
 
-var _perceptualPicker = _interopRequireDefault(require("./perceptual-picker"));
+var _threeWindowPicker = _interopRequireDefault(require("./three-window-picker"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./perceptual-picker":"../../src/perceptual-picker.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"./three-window-picker":"../../src/three-window-picker.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -31837,21 +31861,21 @@ var Demo = function Demo() {
     }
   }, _react.default.createElement("h1", {
     style: {
-      textAlign: 'center'
+      textAlign: "center"
     }
   }, "React Perceptual Picker"), _react.default.createElement("h2", {
     style: {
-      textAlign: 'center'
+      textAlign: "center"
     }
   }, "A color picker component using Oklab for React and Preact apps"), _react.default.createElement("h3", {
     style: {
-      textAlign: 'center'
+      textAlign: "center"
     }
   }, "Tap on any square to select that color"), _react.default.createElement("div", {
     style: {
-      textAlign: 'center'
+      textAlign: "center"
     }
-  }, _react.default.createElement(_src.PerceptualPicker, {
+  }, _react.default.createElement(_src.ThreeWindowPicker, {
     onChange: handleChange,
     centerColor: color,
     row: bigEnough
@@ -31887,7 +31911,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50384" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49854" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
